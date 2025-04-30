@@ -1,0 +1,26 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "John Doe",
+        "nrp": "12345",
+        "tanggal": "2025-04-30",
+        "shift": "Pagi",
+        "waktu": "06:30",
+        "no_pc_1250": "PC1250-A",
+        "nama_operator": "Budi",
+        "list_hd": ["HD1", "HD2", "HD3"],
+        "start_loading": "06:45",
+        "hm_awal": 85.7,
+        "hm_sementara": 87.39,
+        "jarak": 12.5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [107.6098, -6.925]
+      }
+    }
+  ]
+}
