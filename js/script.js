@@ -140,6 +140,28 @@ document.addEventListener("DOMContentLoaded", function () {
     tampilkanChart(subset);
   }
 
+  // Export semua data
+  document.getElementById("exportAllBtn").addEventListener("click", function () {
+    const laporanList = JSON.parse(localStorage.getItem("laporan")) || [];
+    if (laporanList.length === 0) {
+      alert("Tidak ada data untuk diekspor.");
+      return;
+    }
+    exportToExcel(laporanList, "laporan_ritase_semua.xlsx");
+  });
+
+  // Export data hasil filter
+  document.getElementById("exportFilteredBtn").addEventListener("click", function () {
+    const key = document.getElementById("filterNama").value;
+    const all = JSON.parse(localStorage.getItem("laporan")) || [];
+    const filtered = key ? all.filter((r) => r.nrp === key) : all;
+    if (filtered.length === 0) {
+      alert("Tidak ada data yang sesuai filter untuk diekspor.");
+      return;
+    }
+    exportToExcel(filtered, `laporan_ritase_${key || "semua"}.xlsx`);
+  });
+
   function tampilkanChart(dataOverride) {
     const data = dataOverride || JSON.parse(localStorage.getItem("laporan")) || [];
     const labels = data.map((r) => `${r.nama} (${r.tanggal})`);
@@ -196,7 +218,12 @@ document.addEventListener("DOMContentLoaded", function () {
       options: { responsive: true, scales: { y1: { type: "linear", position: "left", beginAtZero: true }, y2: { type: "linear", position: "right", beginAtZero: true, grid: { drawOnChartArea: false } } } },
     });
   }
-
+  function exportToExcel(dataArray, filename) {
+    const worksheet = XLSX.utils.json_to_sheet(dataArray);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Ritase");
+    XLSX.writeFile(workbook, filename);
+  }
   // init
   JSON.parse(localStorage.getItem("laporan") || "[]").forEach((r) => tambahTabel(r));
   updateFilterOptions();
